@@ -19,8 +19,7 @@ router.post("/register",async (req,res)=>{
         errors.push({msg:"Password must be at least 8 characters"});
         if(errors.length)
         {
-            
-            console.log(errors);
+            console.log("L-22---------->inside register post");
             res.render('register',
             {
                 errors,
@@ -32,6 +31,7 @@ router.post("/register",async (req,res)=>{
         }
         else
         {
+            console.log("L-22---------->inside register post");
             const check= await User.findOne({email:email});
             if(check)
             {
