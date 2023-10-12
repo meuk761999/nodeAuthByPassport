@@ -2,10 +2,11 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT||3001;
 const expressLayouts = require('express-ejs-layouts');
-app.use(express.json());
+const dbXtring = require('./config/keys').MongoURI;
+// app.use(express.json());
 const mongoose = require('mongoose');
-const userModel=require("./model/schema");
-mongoose.connect('mongodb://127.0.0.1:27017/mydbe')
+const UserModel=require("./model/User");
+mongoose.connect(dbXtring,{useNewUrlParser:true})
 .then(()=>
 {
     console.log('mongodb connected');
@@ -16,8 +17,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/mydbe')
 })
 app.use(expressLayouts);
 app.set('view engine','ejs')
-
-app.use('/users',require('./routes/index.js'));
+app.use(express.urlencoded({extended:false}));
+app.use('/users',require('./routes/users.js'));
 
 app.listen(PORT,()=>{
     console.log(`Server is listening on ${PORT}`);
