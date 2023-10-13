@@ -3,7 +3,6 @@ const app = express();
 const PORT = process.env.PORT||3001;
 const expressLayouts = require('express-ejs-layouts');
 const dbXtring = require('./config/keys').MongoURI;
-// app.use(express.json());
 const mongoose = require('mongoose');
 const UserModel=require("./model/User");
 mongoose.connect(dbXtring,{useNewUrlParser:true})
