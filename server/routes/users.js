@@ -1,9 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 // views Routes
-router.get('/login',(req,res)=> res.render("welcome"));
-router.get('/register',(req,res)=>res.render("register"));
+router.get('/welcome',(req,res)=> res.render("welcome"));
+router.get('/register',(req,res)=>res.render("register",{
+    success_msg:'',
+    error_msg:''
+}));
+router.get('/login',(req,res)=>res.render("login",{
+}));
+// router.get('/dashboard',(req,res)=> res.render('dashboard'));
 //controller Routes
 const User = require('../model/User');
 router.post("/register",async (req,res)=>{
@@ -52,10 +59,10 @@ router.post("/register",async (req,res)=>{
                 {
                     if(err) throw err;
                 console.log("hashPassword",hash)
-                console.log("L-55---------->inside register post");
                 const status = await User.create({name:name ,email:email,password:hash});
                 if(status)
                 {
+                    req.flash('success_msg','You are now registered and can login now.');
                     res.redirect("login");
                 }
                 }))
@@ -70,6 +77,15 @@ router.post("/register",async (req,res)=>{
     }
 })
 
+router.post('/login',(req,res,next)=>
+{
+    passport.authenticate('local',{
+        successRedirect:'/users/dashboard',
+        failureRedirect:'/users/login',
+        failureFlash:true
+    })(req,res,next)
+
+});
 
 
 module.exports=router
