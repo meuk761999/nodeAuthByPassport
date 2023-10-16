@@ -22,7 +22,7 @@ mongoose.connect(dbXtring,{useNewUrlParser:true})
 app.use(expressLayouts);
 app.set('view engine','ejs')
 app.use(express.urlencoded({extended:false}));
-
+//to use session to create a session for every login
 app.use(session({
     secret:'secret',
     resave:true,
